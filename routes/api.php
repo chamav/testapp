@@ -12,6 +12,30 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['middleware' => ['api'],'prefix' => 'v1/'], function () {
+    //User entity
+
+
+    Route::group(['prefix' => 'user'], function () {
+        Route::post('registration', 'APIUserController@registration');
+
+        Route::post('authorization',    'APIUserController@login');
+
+    });
+
+    //Media entity
+    Route::group(['prefix' => 'media'], function () {
+        Route::group(['middleware' => 'jwt-auth'], function () {
+
+            Route::post('uploadFile', 'APIMediaController@store');
+
+        });
+    });
+
+
+
+
+});
 
 Route::get('/user', function (Request $request) {
     return $request->user();
