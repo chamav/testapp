@@ -5,6 +5,33 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * App\User
+ *
+ * @mixin \Eloquent
+ * @property integer $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $remember_token
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property integer $age
+ * @property integer $weight
+ * @property integer $city_id
+ * @property string $sex
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereAge($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereWeight($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereCityId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereSex($value)
+ */
 class User extends Authenticatable implements JWTSubject
 {
     
