@@ -77,6 +77,17 @@ return [
             'prefix' => '',
             'schema' => 'public',
         ],
+        'sphinx' => [
+            'driver'    => 'mysql',
+            'host'      => env('SPH_HOST', '127.0.0.1'),
+            'port'      => env('SPH_PORT', 9306),
+            'database'  => '',
+            'username'  => '',
+            'password'  => '',
+            'charset'   => '',
+            'collation' => null,
+            'prefix'    => '',
+        ],
 
     ],
 
