@@ -52,6 +52,13 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d H:i:sO';
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT
      *
      * @return mixed

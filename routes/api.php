@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['api'],'prefix' => 'v1/'], function () {
     //User entity
 
+    //user list
+    Route::get('users', 'Api\UserController@index');
 
     Route::group(['prefix' => 'user'], function () {
         Route::post('registration', 'Api\UserController@registration');
@@ -37,6 +39,3 @@ Route::group(['middleware' => ['api'],'prefix' => 'v1/'], function () {
 
 });
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');

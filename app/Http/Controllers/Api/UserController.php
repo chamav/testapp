@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Pagination;
 use App\Services\CreateUserService;
-use App\UserUser;
+use App\Transformers\UserProfileTransformer;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\CreateUser;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -50,12 +53,15 @@ class UserController extends Controller
                     'success' => false, 'error'=> ['message' => $validator->messages(), 'code' => 406],
                 ], 406);
         }
-
+        $per_page = $request->input('per_page') ? $request->input('per_page'): config('app.per_page',10);
+        $users = User::get();
+        $users = UserProfileTransformer::transform( $users );
 
 
         return response()->json(
             [
                 'success' => true,
+                'users' => New Paginator($users,$per_page, null, ['path' => Paginator::resolveCurrentPath()]),
             ]);
 
     }

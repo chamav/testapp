@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e866ad387d2584f321babf3e6a32eae5",
-    "content-hash": "0d04c8e0bbbd9c58b2a204af2954be92",
+    "hash": "45042b4939c3ca882140fedab380f5c7",
+    "content-hash": "b8e8a34759acc5d6c2d916e39766c22d",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -2452,6 +2452,59 @@
                 "dump"
             ],
             "time": "2016-11-03 08:04:31"
+        },
+        {
+            "name": "themsaid/laravel-model-transformers",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/themsaid/laravel-model-transformer.git",
+                "reference": "8571bf423a7495c3c789e8ebe6a66e93e821d697"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/themsaid/laravel-model-transformer/zipball/8571bf423a7495c3c789e8ebe6a66e93e821d697",
+                "reference": "8571bf423a7495c3c789e8ebe6a66e93e821d697",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.1",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Themsaid\\Transformers\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ],
+                "classmap": [
+                    "tests"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Said",
+                    "email": "themohamedsaid@gmail.com"
+                }
+            ],
+            "description": "Easy transformation layer for complex model attributes.",
+            "homepage": "https://github.com/themsaid/laravel-model-transformers",
+            "keywords": [
+                "api",
+                "json",
+                "laravel"
+            ],
+            "time": "2016-03-11 10:54:10"
         },
         {
             "name": "tymon/jwt-auth",
