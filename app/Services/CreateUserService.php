@@ -16,9 +16,9 @@ use Cache;
 class CreateUserService
 {
 
-    public function make(CreateUser $request, $mergedAfter = null)
+    public function make(CreateUser $request)
     {
-        $input = $request->only(['name', 'email', 'password',]);
+        $input = $request->only(['name', 'email', 'password', 'age', 'weight', 'city_id', 'sex']);
         $input['email'] = mb_strtolower($input['email']);
 
         $input =array_merge($input,

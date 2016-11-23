@@ -23,9 +23,12 @@ class CreateUser extends Request
     public function rules()
     {
         return [
-            'name' => 'min:1|max:50',
+            'name' => 'required|min:1|max:50',
             'password' => 'required|min:6|max:255',
             'email' => 'required|email|max:255|unique:users',
+            'age' => 'required|min:1|max:150',
+            'city_id' => 'required|integer|exists:cities,id',
+            'weight'  => 'required|integer|min:6|max:255'
         ];
     }
 }

@@ -68,27 +68,9 @@ class UserController extends Controller
      */
     public function registration(CreateUser $request, CreateUserService $service)
     {
-        $input = $request->only(['name', 'email', 'password', 'lang', 'location', 'nickname']);
-        $input['nickname'] = mb_strtolower($input['nickname']);
-        $input['email']     = mb_strtolower($input['email']);
 
-        $validator = Validator::make(
-            $input,
-            [
-                'name' => 'nullable|min:1|max:50',
-                'password' => 'required|min:6|max:255',
-                'email' => 'required|email|max:255|unique:users',
-            ]
-        );
-        if ($validator->fails())
-        {
-            return response()->json(
-                [
-                    'success' => false, 'error'=> ['message' => $validator->messages(), 'code' => 406],
-                ], 406);
-        }
         $user = $service->make($request);
-        $token = JWTAuth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')]);
+        $token = JWTAuth::attempt(['email' => $user->email, 'password' => $request->get('password')]);
 
 
 
