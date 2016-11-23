@@ -44,6 +44,22 @@ class CreateUsersTable extends Migration
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('set null');
             $table->enum('sex', ['0', '1', '2'])->nullable()->default(null)->comment('1-female, 2- male');
         });
+
+        Schema::create('user_files', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->timestampsTz();
+            $table->string('name');
+            $table->string('hash', 64)->index();
+            $table->bigInteger('size',false, true);
+            $table->integer('user_id',false,true)->unsigned()->index();
+            $table->boolean('actual')->default('0');
+            $table->tinyInteger('type', false, true);
+            $table->dateTimeTz('processed')->nullable()->default(null);
+            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->softDeletes();
+        });
+        DB::statement("COMMENT ON column user_files.type IS '0 - image 1 - other';");
+        DB::statement("COMMENT ON column user_files.processed IS 'Timestamp processed image';");
     }
 
     /**
@@ -55,5 +71,6 @@ class CreateUsersTable extends Migration
     {
         Schema::drop('users');
         Schema::drop('cities');
+        Schema::drop('user_files');
     }
 }
