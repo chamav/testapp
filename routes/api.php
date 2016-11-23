@@ -27,7 +27,7 @@ Route::group(['middleware' => ['api'],'prefix' => 'v1/'], function () {
     Route::group(['prefix' => 'media'], function () {
         Route::group(['middleware' => 'jwt-auth'], function () {
 
-            Route::post('uploadFile', 'APIMediaController@store');
+            Route::post('uploadFile', 'Api\MediaController@store');
 
         });
     });
