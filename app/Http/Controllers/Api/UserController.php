@@ -54,6 +54,16 @@ class UserController extends Controller
                 ], 406);
         }
         $per_page = $request->input('per_page') ? $request->input('per_page'): config('app.per_page',10);
+
+        $results = [];
+        if (!empty($input['query'])) {
+            $conn = \DB::connection('sphinx');
+            $query = addslashes(strip_tags($input['query'] . '*'));
+            //Делаем выборку с установкой разного веса полям
+            $results = $conn->select(\DB::raw("SELECT * FROM users WHERE MATCH (:query) OPTION  max_matches=50"), [
+                'query' => $query,
+            ]);
+        }
         $users = User::get();
         $users = UserProfileTransformer::transform( $users );
 
