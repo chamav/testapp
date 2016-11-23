@@ -44,7 +44,11 @@ class UserController extends Controller
         $validator = \Validator::make(
             $input,
             [
-                'query' => 'string|between:3,50',
+                'query' =>      'string|between:3,50',
+                'start_age' =>  'integer|min:0|max:150',
+                'end_age' =>    'integer|min:1|max:151',
+                'start_weight' =>    'integer|min:1|max:351',
+                'end_weight' =>    'integer|min:1|max:352',
             ]
         );
         if ($validator->fails())
@@ -66,7 +70,9 @@ class UserController extends Controller
 //            ]);
             $sphinx = new SphinxSearch();
             $query = addslashes(strip_tags($input['query'] . '*'));
-            $result = $sphinx->search($query, 'users')->limit($per_page+1, ((is_null($request->input('page')) || empty($request->input('page'))?1:$request->input('page'))-1)*$per_page)->get();
+            $result = $sphinx->search($query, 'users')->limit($per_page+1, ((is_null($request->input('page')) || empty($request->input('page'))?1:$request->input('page'))-1)*$per_page);
+
+            $result = $result->get();
             if ($result && is_array($result['matches'])) {
                 $ids = array_keys($result['matches']);
                 $users = User::whereIn('id', $ids)->get();
