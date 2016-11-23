@@ -23,9 +23,9 @@ class CreateUser extends Request
     public function rules()
     {
         return [
-            'name' => 'required|min:1|max:50',
+            'name' => 'min:1|max:50',
             'password' => 'required|min:6|max:255',
-            'email' => 'required|email|max:255|unique:auth__users',
+            'email' => 'required|email|max:255|unique:users',
         ];
     }
 }
