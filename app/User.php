@@ -68,4 +68,12 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(){
         return [];
     }
+
+    /**
+     * Get all of the files for the user.
+     */
+    public function files()
+    {
+        return $this->hasMany(UserFile::class,'user_id');
+    }
 }

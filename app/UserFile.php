@@ -65,7 +65,7 @@ class UserFile extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'hash', 'size', 'user_id', 'created_at', 'type', 'mime', 'avatar'];
+    protected $fillable = ['name', 'hash', 'size', 'user_id', 'created_at', 'type', 'mime'];
 
     const TYPE_IMAGE = 0; //Image document
     const TYPE_OTHER = 1; //Other document

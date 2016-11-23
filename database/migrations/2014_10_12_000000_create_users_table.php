@@ -55,6 +55,7 @@ class CreateUsersTable extends Migration
             $table->boolean('actual')->default('0');
             $table->tinyInteger('type', false, true);
             $table->dateTimeTz('processed')->nullable()->default(null);
+            $table->string('mime')->nullable()->default(null);
             //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
         });
