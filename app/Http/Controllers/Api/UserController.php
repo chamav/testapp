@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\CreateUser;
+use sngrl\SphinxSearch\SphinxSearch;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 use Hash;
@@ -57,14 +58,23 @@ class UserController extends Controller
 
         $results = [];
         if (!empty($input['query'])) {
-            $conn = \DB::connection('sphinx');
+//            $conn = \DB::connection('sphinx');
+//
+//            //Делаем выборку с установкой разного веса полям
+//            $results = $conn->select(\DB::raw("SELECT * FROM users WHERE MATCH (:query) OPTION  max_matches=50"), [
+//                'query' => $query,
+//            ]);
+            $sphinx = new SphinxSearch();
             $query = addslashes(strip_tags($input['query'] . '*'));
-            //Делаем выборку с установкой разного веса полям
-            $results = $conn->select(\DB::raw("SELECT * FROM users WHERE MATCH (:query) OPTION  max_matches=50"), [
-                'query' => $query,
-            ]);
+            $result = $sphinx->search($query, 'users')->limit($per_page+1, ((is_null($request->input('page')) || empty($request->input('page'))?1:$request->input('page'))-1)*$per_page)->get();
+            if ($result && is_array($result['matches'])) {
+                $ids = array_keys($result['matches']);
+                $users = User::whereIn('id', $ids)->get();
+            }
+        } else{
+            $users = User::get();
         }
-        $users = User::get();
+
         $users = UserProfileTransformer::transform( $users );
 
 

@@ -162,6 +162,8 @@ return [
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        sngrl\SphinxSearch\SphinxSearchServiceProvider::class,
+
     ],
 
     /*

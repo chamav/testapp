@@ -10,7 +10,8 @@
         "tymon/jwt-auth": "1.0.x-dev",
         "barryvdh/laravel-ide-helper": "^2.2",
         "doctrine/dbal": "^2.5",
-        "themsaid/laravel-model-transformers": "^1.0"
+        "themsaid/laravel-model-transformers": "^1.0",
+        "sngrl/sphinxsearch": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
