@@ -71,14 +71,19 @@ class UserController extends Controller
 //                'name' => $name,
 //            ]);
             $sphinx = new SphinxSearch();
+            $query ='';
+            //Поиск городу
+            if(!empty($input['city'])){
+                $query .= addslashes(strip_tags('@city '.$input['city'].' '));
+            }
 
             if(!empty($input['name'])){
                 //$sphinx->SetMatchMode( SphinxClient::SPH_MATCH_EXTENDED2  );
-                $query = addslashes(strip_tags('@name '.$input['name']));
-            }else{
+                $query .= addslashes(strip_tags('@name '.$input['name']));
+            }
 
+            if($query == ''){
                 $sphinx->SetMatchMode(SphinxClient::SPH_MATCH_ALL);
-                $query = '';
             }
             $result = $sphinx->search($query, 'users')->limit($per_page+1, ((is_null($request->input('page')) || empty($request->input('page'))?1:$request->input('page'))-1)*$per_page);
             //Поиск по возрасту

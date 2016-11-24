@@ -90,6 +90,5 @@ class User extends Authenticatable implements JWTSubject
     public function city()
     {
         return $this->hasOne(City::class, 'id','city_id');
-        //return $this->belongsTo('App\City', 'users_city_id_foreign', 'id');
     }
 }
