@@ -85,6 +85,10 @@ class UserController extends Controller
             if(!empty($input['start_age']) || !empty($input['end_age'])){
                 $result->range('age', empty($input['start_age'])?0:(int)$input['start_age'], empty($input['end_age'])?200:(int)$input['end_age']);
             }
+            //Поиск по весу
+            if(!empty($input['start_weight']) || !empty($input['end_weight'])){
+                $result->range('weight', empty($input['start_weight'])?0:(int)$input['start_weight'], empty($input['end_weight'])?352:(int)$input['end_weight']);
+            }
             $result = $result->get();
             if ($result && is_array($result['matches'])) {
                 $ids = array_keys($result['matches']);
