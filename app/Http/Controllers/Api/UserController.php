@@ -71,19 +71,20 @@ class UserController extends Controller
 //                'name' => $name,
 //            ]);
             $sphinx = new SphinxSearch();
-            if(!empty($input['start_age']) || !empty($input['end_age'])){
-                $sphinx->range('age', empty($input['start_age'])?0:(int)$input['start_age'], empty($input['end_age'])?200:(int)$input['end_age']);
-            }
+
             if(!empty($input['name'])){
-                //$sphinx->SetMatchMode( SphinxClient::SPH_MATCH_EXTENDED  );
+                //$sphinx->SetMatchMode( SphinxClient::SPH_MATCH_EXTENDED2  );
                 $query = addslashes(strip_tags('@name '.$input['name']));
             }else{
 
-                $sphinx->SetMatchMode(SphinxClient::SPH_MATCH_FULLSCAN);
+                $sphinx->SetMatchMode(SphinxClient::SPH_MATCH_ALL);
                 $query = '';
             }
             $result = $sphinx->search($query, 'users')->limit($per_page+1, ((is_null($request->input('page')) || empty($request->input('page'))?1:$request->input('page'))-1)*$per_page);
-
+            //Поиск по возрасту
+            if(!empty($input['start_age']) || !empty($input['end_age'])){
+                $result->range('age', empty($input['start_age'])?0:(int)$input['start_age'], empty($input['end_age'])?200:(int)$input['end_age']);
+            }
             $result = $result->get();
             if ($result && is_array($result['matches'])) {
                 $ids = array_keys($result['matches']);
