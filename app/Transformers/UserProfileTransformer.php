@@ -18,6 +18,7 @@ class UserProfileTransformer extends AbstractTransformer
     public function transformModel(Model $instance)
     {
         $result = $instance->toArray();
+        $result['city'] = $instance->city->name_ru;
         return $result;
     }
 }

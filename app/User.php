@@ -83,4 +83,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(UserFile::class,'user_id');
     }
+
+    /**
+     * Get the city record associated with the user.
+     */
+    public function city()
+    {
+        return $this->hasOne(City::class, 'id','city_id');
+        //return $this->belongsTo('App\City', 'users_city_id_foreign', 'id');
+    }
 }
