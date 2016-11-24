@@ -43,6 +43,7 @@ class CreateUsersTable extends Migration
             $table->integer('city_id');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('set null');
             $table->enum('sex', ['0', '1', '2'])->nullable()->default(null)->comment('1-female, 2- male');
+            $table->timestampTz('deleted_at')->nullable();
         });
 
         Schema::create('user_files', function (Blueprint $table) {
