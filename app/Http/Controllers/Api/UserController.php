@@ -14,6 +14,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\CreateUser;
 use sngrl\SphinxSearch\SphinxSearch;
+use Sphinx\SphinxClient;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 use Hash;
@@ -44,11 +45,12 @@ class UserController extends Controller
         $validator = \Validator::make(
             $input,
             [
-                'query' =>      'string|between:3,50',
+                'name' =>      'string|between:3,50',
                 'start_age' =>  'integer|min:0|max:150',
                 'end_age' =>    'integer|min:1|max:151',
                 'start_weight' =>    'integer|min:1|max:351',
                 'end_weight' =>    'integer|min:1|max:352',
+                'sex' => 'integer|min:0|max:2',
             ]
         );
         if ($validator->fails())
@@ -61,15 +63,21 @@ class UserController extends Controller
         $per_page = $request->input('per_page') ? $request->input('per_page'): config('app.per_page',10);
 
         $results = [];
-        if (!empty($input['query'])) {
+        if (!empty($input['name']) || !empty($input['start_age']) || !empty($input['end_age']) || !empty($input['start_weight']) || !empty($input['end_weight']) || !empty($input['city'])) {
 //            $conn = \DB::connection('sphinx');
 //
 //            //Делаем выборку с установкой разного веса полям
-//            $results = $conn->select(\DB::raw("SELECT * FROM users WHERE MATCH (:query) OPTION  max_matches=50"), [
-//                'query' => $query,
+//            $results = $conn->select(\DB::raw("SELECT * FROM users WHERE MATCH (:name) OPTION  max_matches=50"), [
+//                'name' => $name,
 //            ]);
             $sphinx = new SphinxSearch();
-            $query = addslashes(strip_tags($input['query'] . '*'));
+            if(!empty($input['name'])){
+                $sphinx->SetMatchMode( SphinxClient::SPH_MATCH_EXTENDED  );
+                $query = addslashes(strip_tags('@name '.$input['name']));
+            }else{
+                $query = addslashes(strip_tags('*'));
+            }
+
             $result = $sphinx->search($query, 'users')->limit($per_page+1, ((is_null($request->input('page')) || empty($request->input('page'))?1:$request->input('page'))-1)*$per_page);
 
             $result = $result->get();
