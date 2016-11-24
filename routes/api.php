@@ -18,6 +18,7 @@ Route::group(['middleware' => ['api'],'prefix' => 'v1/'], function () {
     //user list
     Route::get('users', 'Api\UserController@index');
     Route::get('user/{user_id}', 'Api\UserController@get');
+    Route::delete('user/{user_id}',  'Api\UserController@destroy');
 
     Route::group(['prefix' => 'user'], function () {
         Route::post('registration', 'Api\UserController@registration');

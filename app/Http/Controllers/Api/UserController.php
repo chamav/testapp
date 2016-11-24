@@ -216,6 +216,27 @@ class UserController extends Controller
 //
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @param  integer $user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $user_id)
+    {
+        //
+        $user = User::find($user_id);
+        if(is_null($user)|| !$user->exists) {
+            return response()->json(['success'=> false, 'error'=> ['common' => trans('validation.exists_user_id_db', ['id' => $user_id])], 'code' => 404], 404);
+        }
+        $user->delete();
+        return response()->json(
+            [
+                'success' => true,
+            ]);
+    }
+
 
 
 }
