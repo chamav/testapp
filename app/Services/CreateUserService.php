@@ -2,6 +2,7 @@
 namespace App\Services;
 use App\AuthUser;
 use App\Http\Requests\CreateUser;
+use App\Http\Requests\Request;
 use App\Transformers\UserShortTransformer;
 use App\User;
 use App\UserStats;
@@ -16,7 +17,7 @@ use Cache;
 class CreateUserService
 {
 
-    public function make(CreateUser $request)
+    public function make(Request $request)
     {
         $input = $request->only(['name', 'email', 'password', 'age', 'weight', 'city_id', 'sex']);
         $input['email'] = mb_strtolower($input['email']);
@@ -25,8 +26,12 @@ class CreateUserService
             [
                 'password' => \Illuminate\Support\Facades\Hash::make($input['password']),
             ]);
-
-        $user = User::create($input);
+        $user = $request->user();
+        if(is_null($user)|| !$user->exists) {
+            $user = User::create($input);
+        } else {
+            $user->update($input);
+        }
         return $user;
     }
 

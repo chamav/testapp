@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pagination;
+use App\Http\Requests\UpdateUser;
 use App\Services\CreateUserService;
 use App\Transformers\UserProfileTransformer;
 use App\User;
@@ -237,6 +238,24 @@ class UserController extends Controller
             ]);
     }
 
+    /**
+     * Сохранить профиль пользователя
+     *
+     * @param CreateUser  $request
+     * @param CreateUserService $service
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveProfile(UpdateUser $request, CreateUserService $service)
+    {
+
+        $user = $service->make($request);
+
+        // send the token back to the client
+        return response()->json(
+            [
+                'success' => true,
+            ], 201);
+    }
 
 
 }
