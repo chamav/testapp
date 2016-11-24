@@ -71,13 +71,17 @@ class UserController extends Controller
 //                'name' => $name,
 //            ]);
             $sphinx = new SphinxSearch();
+            if(!empty($input['start_age']) || !empty($input['end_age'])){
+                $sphinx->range('age', empty($input['start_age'])?0:(int)$input['start_age'], empty($input['end_age'])?200:(int)$input['end_age']);
+            }
             if(!empty($input['name'])){
-                $sphinx->SetMatchMode( SphinxClient::SPH_MATCH_EXTENDED  );
+                //$sphinx->SetMatchMode( SphinxClient::SPH_MATCH_EXTENDED  );
                 $query = addslashes(strip_tags('@name '.$input['name']));
             }else{
-                $query = addslashes(strip_tags('*'));
-            }
 
+                $sphinx->SetMatchMode(SphinxClient::SPH_MATCH_FULLSCAN);
+                $query = '';
+            }
             $result = $sphinx->search($query, 'users')->limit($per_page+1, ((is_null($request->input('page')) || empty($request->input('page'))?1:$request->input('page'))-1)*$per_page);
 
             $result = $result->get();
@@ -88,14 +92,23 @@ class UserController extends Controller
         } else{
             $users = User::get();
         }
+        if(!isset($users))
+            return response()->json(
+                [
+                    'success' => true,
+                    'users' => null,
+                ]);
 
         $users = UserProfileTransformer::transform( $users );
-
-
+        //Пагинация
+        $Paginator = New Paginator($users,$per_page, null, ['path' => Paginator::resolveCurrentPath()]);
+        //Входные параметры передаем всем старницам для перхода
+        $Paginator->appends($request->except(['page']));
+        $page = $Paginator->toArray();
         return response()->json(
             [
                 'success' => true,
-                'users' => New Paginator($users,$per_page, null, ['path' => Paginator::resolveCurrentPath()]),
+                'users' => $page,
             ]);
 
     }
