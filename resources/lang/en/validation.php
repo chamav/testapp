@@ -97,6 +97,8 @@ return [
         ],
     ],
 
+    'exists_user_id_db' => 'The user with id :id does not exist in database.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes

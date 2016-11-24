@@ -194,6 +194,28 @@ class UserController extends Controller
         return response()->json(['result' => $user]);
     }
 
+    /**
+     * Get user info
+     *
+     * @param  Request  $request
+     * @param integer $user_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get(Request $request, $user_id)
+    {
+        $user = User::find($user_id);
+        if(is_null($user)|| !$user->exists) {
+            return response()->json(['success'=> false, 'error'=> ['common' => trans('validation.exists_user_id_db', ['id' => $user_id])], 'code' => 404], 404);
+        }
+        $user = UserProfileTransformer::transform($user);
+        return response()->json(
+            [
+                'success' => true,
+                'user' => $user,
+            ]);
+//
+    }
+
 
 
 }
